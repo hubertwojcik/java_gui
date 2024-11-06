@@ -37,11 +37,14 @@ public class Account {
     }
 
     public static void setInterestRate(double value){
+        if (value < 0) {
+            throw new IllegalArgumentException("Interest rate cannot be negative");
+        }
         interest=value;
     }
 
     public void addInterest(){
-        double newValue = balance + (balance*interest/100);
-        balance=newValue;
+        balance = balance + (balance*interest/100);
+
     }
 }
