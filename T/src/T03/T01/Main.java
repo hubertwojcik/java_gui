@@ -11,6 +11,15 @@ public class Main {
         try{
             binarySave(person);
             bufferedSave(person);
+            objectSave(person);
+
+
+            Person bufferedPerson = bufferedRead();
+            System.out.println("Buffer read person:: " + bufferedPerson);
+
+
+            Person objectPerson = objectRead();
+            System.out.println("Serialized person: " + objectPerson);
 
         }catch (IOException e){
             System.out.println("IO EXPCETION");
@@ -33,8 +42,7 @@ public class Main {
         System.out.println("Enter address: ");
         String address = scanner.nextLine();
 
-        Person person = new Person(firstName,lastName,pesel,dob,address);
-        return person;
+        return new Person(firstName,lastName,pesel,dob,address);
     }
 
     public static void binarySave(Person person) throws IOException{
@@ -62,9 +70,7 @@ public class Main {
         }
     }
 
-//    public Person binaryRead(){
 
-//    }
     public static void bufferedSave(Person person) throws Exception{
         BufferedWriter br = null;
                 try{
@@ -84,6 +90,54 @@ public class Main {
                         br.close();
                     }
                 }
+    }
+
+    public static Person bufferedRead() throws IOException{
+        BufferedReader br = null;
+        try{
+            br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/T03/T01/buffered_saved.txt"));
+            String firstName = br.readLine();
+            String lastName = br.readLine();
+            String pesel = br.readLine();
+            String dob = br.readLine();
+            String address = br.readLine();
+            return new Person (firstName,lastName,pesel,dob,address);
+        }finally {
+            if( br != null){
+                br.close();
+            }
+        }
+
+    }
+
+
+    public static void objectSave(Person person)throws NotSerializableException, FileNotFoundException, IOException{
+        ObjectOutputStream oos = null;
+
+        try{
+            oos = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir")+"/src/T03/T01/object_save.txt"));
+            oos.writeObject(person);
+        }finally {
+            if(oos != null){
+                oos.close();
+            }
+        }
+
+    }
+
+    public static Person objectRead() throws IOException,ClassNotFoundException{
+        ObjectInputStream ois = null;
+        try{
+            ois = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/src/T03/T01/object_save.txt"));
+            return (Person) ois.readObject();
+
+        }finally {
+            if(ois != null){
+                ois.close();
+            }
+        }
+
+
     }
 
 }

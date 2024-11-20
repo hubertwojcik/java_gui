@@ -1,6 +1,8 @@
 package T03.T01;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person  implements Serializable {
     private String firstName;
     private String lastName;
     private String pesel;
@@ -34,4 +36,17 @@ public class Person {
     public String getAddress() {
         return address;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", pesel='" + pesel + '\'' +
+                ", dob='" + dob + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
+
 }
